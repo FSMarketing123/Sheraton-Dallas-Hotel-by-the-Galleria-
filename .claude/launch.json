@@ -1,0 +1,21 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "HGI Pensacola — Dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000,
+      "autoPort": true,
+      "cwd": "hgi-pensacola"
+    },
+    {
+      "name": "HGI Pensacola — Production Preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start"],
+      "port": 3000,
+      "autoPort": true,
+      "cwd": "hgi-pensacola"
+    }
+  ]
+}
