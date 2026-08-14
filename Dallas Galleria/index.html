@@ -95,28 +95,31 @@ ul{list-style:none}
 /* ── GALLERY ── */
 .gallery{background:var(--navy);padding-top:clamp(80px,10vw,140px);padding-bottom:clamp(40px,6vw,80px)}
 .gallery .section-h2{margin-bottom:56px}
-.gallery-subtitle{font-family:var(--font-jost);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:48px 0 16px;padding-left:var(--pad)}
+.gallery-subtitle{font-family:var(--font-jost);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:48px 0 16px}
 .gallery-subtitle:first-of-type{margin-top:0}
-.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-left:calc(var(--pad) * -1);margin-right:calc(var(--pad) * -1)}
+.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
 .gallery-grid.g3{grid-template-columns:repeat(3,1fr)}
-.gallery-grid.g4{grid-template-columns:repeat(4,1fr)}
+.gallery-grid.g4{grid-template-columns:repeat(3,1fr)}
 .gallery-cell{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:16/10}
 .gallery-cell img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .gallery-cell:hover img{transform:scale(1.04)}
 .gallery-cell .g-overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:20px}
 .gallery-cell:hover .g-overlay{opacity:1}
 .gallery-label{font-family:var(--font-jost);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
-@media(max-width:900px){.gallery-grid.g4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.gallery-grid,.gallery-grid.g3,.gallery-grid.g4{grid-template-columns:1fr}}
 
 /* ── HIGHLIGHTS ── */
 .highlights{background:var(--ink);padding:clamp(80px,10vw,140px) 0}
 .highlights .sub-text{font-family:var(--font-jost);font-size:15.5px;color:var(--muted);max-width:55ch;margin-bottom:56px;line-height:1.8}
-.hl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
-.hl-card{background:var(--blue);padding:44px 40px;transition:background .2s}
+.hl-grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:repeat(4,auto);gap:3px}
+.hl-card{background:var(--blue);padding:40px 36px;transition:background .2s;display:flex;flex-direction:column;justify-content:center}
 .hl-card:hover{background:var(--blue-mid)}
 .hl-card h3{font-family:var(--font-cormorant);font-size:22px;font-weight:400;color:#fff;margin-bottom:16px;line-height:1.3}
 .hl-card p{font-family:var(--font-jost);font-size:14.5px;line-height:1.78;color:rgba(255,255,255,.65)}
+.hl-photo{position:relative;overflow:hidden;grid-column:3;grid-row:1/-1}
+.hl-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .6s ease}
+.hl-photo:hover img{transform:scale(1.04)}
+.hl-wide{grid-column:1/3}
 
 /* ── LOCATION ── */
 .location{background:var(--navy);padding:clamp(80px,10vw,140px) 0}
@@ -187,6 +190,7 @@ ul{list-style:none}
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
   .hl-grid{grid-template-columns:repeat(2,1fr)}
+  .hl-span2{grid-column:span 1}
 }
 @media(max-width:760px){
   .two-col{grid-template-columns:1fr;gap:40px}
@@ -300,80 +304,73 @@ ul{list-style:none}
 <section class="gallery" id="property">
   <div class="wrap">
     <h2 class="section-h2">A Landmark at the Galleria</h2>
-  </div>
-  <!-- Guest Rooms -->
-  <div class="gallery-subtitle">Guest Rooms</div>
-  <div class="gallery-grid g4" style="margin-left:0;margin-right:0;padding:0 var(--pad)">
-    <div class="gallery-cell">
-      <img src="Photos/Traditional Room, 1 King Bed.webp" alt="King Room">
-      <div class="g-overlay"><span class="gallery-label">King Bed</span></div>
-    </div>
-    <div class="gallery-cell">
-      <img src="Photos/Room.jpg" alt="Double Bed Room">
-      <div class="g-overlay"><span class="gallery-label">Double Bed Room</span></div>
-    </div>
-    <div class="gallery-cell">
-      <img src="Photos/Bathroom.jpg" alt="Bathroom">
-      <div class="g-overlay"><span class="gallery-label">Bathroom</span></div>
-    </div>
-    <div class="gallery-cell">
-      <img src="Photos/Bathroom shower.jpg" alt="Walk-In Shower">
-      <div class="g-overlay"><span class="gallery-label">Walk-In Shower</span></div>
-    </div>
-  </div>
 
-  <!-- Lobby & Lounge -->
-  <div class="gallery-subtitle">Lobby &amp; Lounge</div>
-  <div class="gallery-grid g3" style="margin-left:0;margin-right:0;padding:0 var(--pad)">
-    <div class="gallery-cell">
-      <img src="Photos/Lobby.jpg" alt="Lobby">
-      <div class="g-overlay"><span class="gallery-label">Lobby</span></div>
+    <!-- Guest Rooms -->
+    <div class="gallery-subtitle">Guest Rooms</div>
+    <div class="gallery-grid g4">
+      <div class="gallery-cell">
+        <img src="Photos/Traditional Room, 1 King Bed.webp" alt="King Room">
+        <div class="g-overlay"><span class="gallery-label">King Bed</span></div>
+      </div>
+      <div class="gallery-cell">
+        <img src="Photos/Room.jpg" alt="Double Bed Room">
+        <div class="g-overlay"><span class="gallery-label">Double Bed Room</span></div>
+      </div>
+      <div class="gallery-cell">
+        <img src="Photos/Bathroom shower.jpg" alt="Walk-In Shower">
+        <div class="g-overlay"><span class="gallery-label">Walk-In Shower</span></div>
+      </div>
     </div>
-    <div class="gallery-cell">
-      <img src="Photos/Lobby2.jpg" alt="Lobby Seating">
-      <div class="g-overlay"><span class="gallery-label">Lobby Seating</span></div>
-    </div>
-    <div class="gallery-cell">
-      <img src="Photos/Lobby3.jpg" alt="Lobby Entrance">
-      <div class="g-overlay"><span class="gallery-label">Lobby Entrance</span></div>
-    </div>
-  </div>
 
-  <!-- Dining & Entertainment -->
-  <div class="gallery-subtitle">Dining &amp; Entertainment</div>
-  <div class="gallery-grid g3" style="margin-left:0;margin-right:0;padding:0 var(--pad)">
-    <div class="gallery-cell">
-      <img src="Photos/Bar (on property).jpg" alt="Water Fire Grille">
-      <div class="g-overlay"><span class="gallery-label">Water Fire Grille</span></div>
+    <!-- Lobby & Lounge -->
+    <div class="gallery-subtitle">Lobby &amp; Lounge</div>
+    <div class="gallery-grid g3">
+      <div class="gallery-cell">
+        <img src="Photos/Lobby.jpg" alt="Lobby">
+        <div class="g-overlay"><span class="gallery-label">Lobby</span></div>
+      </div>
+      <div class="gallery-cell">
+        <img src="Photos/Lobby2.jpg" alt="Lobby Seating">
+        <div class="g-overlay"><span class="gallery-label">Lobby Seating</span></div>
+      </div>
+      <div class="gallery-cell">
+        <img src="Photos/Lobby3.jpg" alt="Lobby Entrance">
+        <div class="g-overlay"><span class="gallery-label">Lobby Entrance</span></div>
+      </div>
     </div>
-    <div class="gallery-cell">
-      <img src="Photos/Bar (on property)2.jpg" alt="Bar Seating">
-      <div class="g-overlay"><span class="gallery-label">Bar &amp; Lounge</span></div>
-    </div>
-    <div class="gallery-cell">
-      <img src="Photos/Lounge.jpg" alt="Lounge">
-      <div class="g-overlay"><span class="gallery-label">Lounge</span></div>
-    </div>
-  </div>
 
-  <!-- Facilities & Exterior -->
-  <div class="gallery-subtitle">Facilities &amp; Exterior</div>
-  <div class="gallery-grid g4" style="margin-left:0;margin-right:0;padding:0 var(--pad)">
-    <div class="gallery-cell">
-      <img src="Photos/Meeting Facility.jpg" alt="Meeting Facility">
-      <div class="g-overlay"><span class="gallery-label">Meeting Facility</span></div>
+    <!-- Dining & Entertainment -->
+    <div class="gallery-subtitle">Dining &amp; Entertainment</div>
+    <div class="gallery-grid g3">
+      <div class="gallery-cell">
+        <img src="Photos/Bar (on property).jpg" alt="Water Fire Grille">
+        <div class="g-overlay"><span class="gallery-label">Water Fire Grille</span></div>
+      </div>
+      <div class="gallery-cell">
+        <img src="Photos/Bar (on property)2.jpg" alt="Bar Seating">
+        <div class="g-overlay"><span class="gallery-label">Bar &amp; Lounge</span></div>
+      </div>
+      <div class="gallery-cell">
+        <img src="Photos/Lounge.jpg" alt="Lounge">
+        <div class="g-overlay"><span class="gallery-label">Lounge</span></div>
+      </div>
     </div>
-    <div class="gallery-cell">
-      <img src="Photos/Outdoor Pool.jpg" alt="Outdoor Pool">
-      <div class="g-overlay"><span class="gallery-label">Outdoor Pool</span></div>
-    </div>
-    <div class="gallery-cell">
-      <img src="Photos/Exterior.jpg" alt="Exterior">
-      <div class="g-overlay"><span class="gallery-label">Hotel Exterior</span></div>
-    </div>
-    <div class="gallery-cell">
-      <img src="Photos/Exterior 4.jpg" alt="Exterior Night">
-      <div class="g-overlay"><span class="gallery-label">Evening View</span></div>
+
+    <!-- Facilities & Exterior -->
+    <div class="gallery-subtitle">Facilities &amp; Exterior</div>
+    <div class="gallery-grid g4">
+      <div class="gallery-cell">
+        <img src="Photos/Meeting Facility.jpg" alt="Meeting Facility">
+        <div class="g-overlay"><span class="gallery-label">Meeting Facility</span></div>
+      </div>
+      <div class="gallery-cell">
+        <img src="Photos/Outdoor Pool.jpg" alt="Outdoor Pool">
+        <div class="g-overlay"><span class="gallery-label">Outdoor Pool</span></div>
+      </div>
+      <div class="gallery-cell">
+        <img src="Photos/Exterior.jpg" alt="Exterior">
+        <div class="g-overlay"><span class="gallery-label">Hotel Exterior</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -393,6 +390,9 @@ ul{list-style:none}
         <h3>Transformational Mavericks Development</h3>
         <p>The Dallas Mavericks have selected a 104-acre site less than a mile away to build a new arena, headquarters, and mixed-use entertainment district &mdash; a major economic catalyst targeting the 2031-32 NBA season.</p>
       </div>
+      <div class="hl-photo">
+        <img src="Photos/Exterior 2.jpg" alt="Sheraton Dallas Exterior">
+      </div>
       <div class="hl-card">
         <h3>Deep Corporate Demand Base</h3>
         <p>Approximately 29 million square feet of office space within a three-mile radius, with major tenants including Amazon, Ryan, Marsh, RSM, AECOM, and Burns &amp; McDonnell across diversified industries.</p>
@@ -409,7 +409,7 @@ ul{list-style:none}
         <h3>Renovation Upside</h3>
         <p>Institutionally maintained with a recently renovated Water Fire Grille, the Property offers meaningful RevPAR upside through targeted guest room renovations to drive enhanced rate performance and competitive positioning.</p>
       </div>
-      <div class="hl-card">
+      <div class="hl-card hl-wide">
         <h3>Clean Investment Offering</h3>
         <p>Fee-simple interest offered free and clear of existing management and financing, providing maximum optionality for new ownership in future operations and capitalization.</p>
       </div>
