@@ -53,15 +53,15 @@ ul{list-style:none}
 .nav-links{display:flex;align-items:center;gap:clamp(16px,2.5vw,36px)}
 .nav-links a{font-family:var(--font-jost);font-size:clamp(9px,1vw,11px);letter-spacing:.15em;text-transform:uppercase;color:var(--muted);transition:color .2s}
 .nav-links a:hover{color:#fff}
-.nav-sign{background:var(--red);color:#1a1a1a;padding:9px 22px;font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;border-radius:1px;transition:background .2s;margin-left:8px}
-.nav-sign:hover{background:var(--red-lt)}
+.nav-links a.nav-sign{background:var(--red);color:#1a1a1a;padding:9px 22px;font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;border-radius:1px;transition:background .2s;margin-left:8px}
+.nav-links a.nav-sign:hover{background:var(--red-lt);color:#1a1a1a}
 
 /* ── HERO ── */
 .hero{position:relative;width:100%;height:100svh;min-height:680px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.72)}
 .hero-grad{position:absolute;inset:0;background:linear-gradient(to top,var(--ink) 0%,rgba(var(--ink-rgb),.55) 28%,transparent 52%);pointer-events:none}
 .hero-center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:-6vh}
-.hero-box{background:rgba(var(--navy-rgb),.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);padding:48px 72px 40px}
+.hero-box{background:rgba(var(--navy-rgb),.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);padding:48px 72px 40px;display:flex;align-items:center;justify-content:center}
 .hero-brand{font-family:var(--font-cormorant);font-size:40px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:#fff;line-height:1.2}
 .hero-sub{font-family:var(--font-jost);font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-top:10px}
 .hero-meta{position:absolute;bottom:44px;left:var(--pad);right:var(--pad);z-index:2;display:flex;align-items:center;justify-content:space-between}
@@ -212,7 +212,7 @@ ul{list-style:none}
 
 <!-- ════ NAVBAR ════ -->
 <nav class="navbar">
-  <div class="nav-logo">Hodges Ward Elliott</div>
+  <div class="nav-logo"><img src="Photos/hwe-logo-white.webp" alt="Hodges Ward Elliott" style="height:36px;width:auto"></div>
   <div class="nav-links">
     <a href="#overview">Overview</a>
     <a href="#property">Gallery</a>
@@ -231,8 +231,7 @@ ul{list-style:none}
   <div class="hero-grad"></div>
   <div class="hero-center">
     <div class="hero-box">
-      <div class="hero-brand">Sheraton</div>
-      <div class="hero-sub">Dallas by the Galleria</div>
+      <img src="Sheraton Logo.png" alt="Sheraton Dallas Hotel by the Galleria" style="max-width:300px;width:80%;height:auto;display:block;margin:0 auto">
     </div>
   </div>
   <div class="hero-meta">
@@ -530,7 +529,7 @@ ul{list-style:none}
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-logo">
-        HODGES<br>WARD<br>ELLIOTT
+        <img src="Photos/hwe-logo-white.webp" alt="Hodges Ward Elliott" style="height:60px;width:auto">
       </div>
       <div>
         <div class="footer-label">Exclusive Representatives</div>
