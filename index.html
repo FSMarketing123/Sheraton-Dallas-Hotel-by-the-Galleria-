@@ -39,7 +39,7 @@ ul{list-style:none}
 .body-text{font-family:var(--font-jost);font-size:15.5px;color:var(--muted);line-height:1.8;text-align:justify}
 
 /* ── BUTTONS ── */
-.btn-cta,.btn-ghost,.btn-blue{display:inline-block;font-family:var(--font-jost);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:16px 40px;border:none;cursor:pointer;transition:background .2s,opacity .2s;text-align:center}
+.btn-cta,.btn-ghost,.btn-blue{display:inline-block;font-family:var(--font-jost);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:16px 40px;border:none;cursor:pointer;transition:background .2s,opacity .2s;text-align:center;min-width:240px}
 .btn-cta{background:var(--red);color:#1a1a1a;border-radius:1px}
 .btn-cta:hover{background:var(--red-lt)}
 .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:1px}
@@ -90,8 +90,8 @@ ul{list-style:none}
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1}
 .stat-row.full{grid-template-columns:1fr}
 .stat-cell{background:var(--navy-lt);border-radius:6px;padding:24px 28px;display:flex;flex-direction:column;justify-content:center}
-.stat-val{font-family:var(--font-cormorant);font-size:24px;font-weight:400;color:#fff;margin-bottom:6px}
-.stat-lbl{font-family:var(--font-jost);font-size:9px;font-weight:300;text-transform:uppercase;letter-spacing:.26em;color:var(--muted)}
+.stat-val{font-family:var(--font-cormorant);font-size:24px;font-weight:400;color:#fff;margin-bottom:6px;text-align:center}
+.stat-lbl{font-family:var(--font-jost);font-size:9px;font-weight:300;text-transform:uppercase;letter-spacing:.26em;color:var(--muted);text-align:center}
 
 /* ── GALLERY ── */
 .gallery{background:var(--ink);padding-top:clamp(80px,10vw,140px);padding-bottom:clamp(40px,6vw,80px)}
@@ -273,7 +273,7 @@ ul{list-style:none}
         </div>
 
         <p class="body-text" style="margin-bottom:24px">Hodges Ward Elliott (&ldquo;HWE&rdquo;) is pleased to present the opportunity to acquire the fee-simple interest in the 317-room <strong style="color:#fff">Sheraton Dallas Galleria</strong> (&ldquo;Property&rdquo; or &ldquo;Hotel&rdquo;), strategically located at one of the busiest intersections in the Dallas-Fort Worth metroplex, across the street from the iconic Galleria Dallas, and surrounded by over 40 million square feet of office and retail space in a three-mile radius. The Galleria, a landmark retail, dining, entertainment, and office development, has anchored North Dallas for more than four decades, receiving over 12 million visitors per year and approximately 7,000 office professionals per day. The surrounding area is continuing to scale with an influx of major office leases, retail tenants, and new development, creating a compelling long-term demand outlook for the Hotel.</p>
-        <p class="body-text"><strong style="color:#fff">Most recently, a landmark development has been proposed less than a mile from the Sheraton, with the NBA&rsquo;s Dallas Mavericks selecting a nearby, 104-acre site to build a new arena, headquarters, and a mixed-use entertainment district.</strong> This represents a major economic catalyst for the submarket, only adding to the appeal of what is already one of the densest commercial corridors in the region.</p>
+        <p class="body-text">Most recently, a landmark development has been proposed less than a mile from the Sheraton, with the <strong style="color:#fff">NBA&rsquo;s Dallas Mavericks</strong> selecting a nearby, 104-acre site to build a <strong style="color:#fff">new arena, headquarters, and a mixed-use entertainment district</strong>. This represents a major economic catalyst for the submarket, only adding to the appeal of what is already one of the densest commercial corridors in the region.</p>
 
         <div class="btn-row">
           <a href="#confidentiality" class="btn-cta">Sign CA Online</a>
@@ -340,17 +340,16 @@ ul{list-style:none}
 
   <div class="gallery-collage">
     <!-- row 1: large lobby + 2 stacked rooms -->
-    <div class="gallery-cell span2c span2r">
-      <img src="Photos/Lobby.jpg" alt="Lobby">
-      <div class="g-overlay"><span class="gallery-label">Lobby</span></div>
+    <div class="gallery-cell span2c span2r" style="background:var(--navy-lt);display:flex;align-items:center;justify-content:center">
+      <span style="font-family:var(--font-jost);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);border:2px dashed rgba(255,255,255,.15);padding:24px 48px;border-radius:8px;text-align:center">Dining<br><span style="font-size:10px;letter-spacing:.12em;opacity:.6">Breakfast Spread Photo Needed</span></span>
     </div>
     <div class="gallery-cell">
       <img src="Photos/Traditional Room, 1 King Bed.webp" alt="King Room">
       <div class="g-overlay"><span class="gallery-label">King Bed</span></div>
     </div>
     <div class="gallery-cell">
-      <img src="Photos/Exterior.jpg" alt="Exterior">
-      <div class="g-overlay"><span class="gallery-label">Exterior</span></div>
+      <img src="Photos/Lobby3.jpg" alt="Lobby">
+      <div class="g-overlay"><span class="gallery-label">Lobby</span></div>
     </div>
     <div class="gallery-cell">
       <img src="Photos/Room.jpg" alt="Double Bed Room">
@@ -366,12 +365,12 @@ ul{list-style:none}
       <div class="g-overlay"><span class="gallery-label">Water Fire Grille</span></div>
     </div>
     <div class="gallery-cell">
-      <img src="Photos/Lobby3.jpg" alt="Lobby Entrance">
-      <div class="g-overlay"><span class="gallery-label">Lobby</span></div>
+      <img src="Photos/Exterior.jpg" alt="Exterior">
+      <div class="g-overlay"><span class="gallery-label">Exterior</span></div>
     </div>
     <div class="gallery-cell span2c span2r">
-      <img src="Photos/Lobby2.jpg" alt="Lobby Seating">
-      <div class="g-overlay"><span class="gallery-label">Lounge</span></div>
+      <img src="Photos/Lobby2.jpg" alt="Front Desk">
+      <div class="g-overlay"><span class="gallery-label">Front Desk</span></div>
     </div>
     <!-- row 4 -->
     <div class="gallery-cell">
@@ -384,8 +383,8 @@ ul{list-style:none}
     </div>
     <!-- row 5: meeting + pool + exterior -->
     <div class="gallery-cell span2c">
-      <img src="Photos/Meeting Facility.jpg" alt="Meeting Facility">
-      <div class="g-overlay"><span class="gallery-label">Meeting Facility</span></div>
+      <img src="Photos/Meeting Facility.jpg" alt="Ballroom">
+      <div class="g-overlay"><span class="gallery-label">Ballroom</span></div>
     </div>
     <div class="gallery-cell span2c">
       <img src="Photos/Outdoor Pool.jpg" alt="Outdoor Pool">
@@ -408,7 +407,7 @@ ul{list-style:none}
       <div>
         <div class="hl-eyebrow">Investment Highlight &mdash; 01 / 07</div>
         <h3 class="hl-title">At the Doorstep of the Galleria</h3>
-        <p class="hl-body">The Property sits across the Tollway from The Galleria, a signature mixed-use destination consisting of a 1.4-million-square-foot, super-regional mall and entertainment center, along with three recently renovated office towers that also total 1.4 million square feet. A staple of the Dallas landscape since its inception, the mall alone hosts over 12 million annual visitors and has undergone multiple renovations and modernizations in recent years, including a newly announced plan to completely transform the grand entrance and enhance the shopper experience. The efforts to improve the mall have been fruitful, attracting exciting new tenants, such as the experiential 100,000-square-foot Netflix House in December 2025, only the second in the country, along with the recently opened flagship Lane Boots, and the future opening of a 10,000-square-foot Aritzia store in fall 2026.</p>
+        <p class="hl-body">The Property sits across the Tollway from the Galleria, a signature mixed-use destination consisting of a 1.4-million-square-foot, super-regional mall and entertainment center, along with three recently renovated office towers that also total 1.4 million square feet. A staple of the Dallas landscape since its inception, the mall alone hosts over 12 million annual visitors and has undergone multiple renovations and modernizations in recent years, including a newly announced plan to completely transform the grand entrance and enhance the shopper experience. The efforts to improve the mall have been fruitful, attracting exciting new tenants, such as the experiential 100,000-square-foot Netflix House in December 2025, only the second in the country, along with the recently opened flagship Lane Boots, and the future opening of a 10,000-square-foot Aritzia store in fall 2026.</p>
         <p class="hl-body" style="margin-top:20px">The three office towers, purchased by Piedmont Realty Trust in 2020 for $400 million, received meaningful renovations from 2024 to 2025. These improvements have played a large role in drawing and retaining high-profile tenants, landing over 775,000 square feet of new leases over the past two years. With tenants such as Amazon, Merrill Lynch, Kimley-Horn, Marsh, and Burns &amp; McDonnell, the complex hosts roughly 7,000 professionals per day and is set up for success for years to come. Between its substantial retail traffic and significant daily office population, the Galleria stands as one of the most visited destinations in Texas, providing the Sheraton with a rare combination of retail, office, and entertainment demand at its doorstep.</p>
       </div>
       <div class="hl-photo">
@@ -435,7 +434,7 @@ ul{list-style:none}
       <div>
         <div class="hl-eyebrow">Investment Highlight &mdash; 02 / 07</div>
         <h3 class="hl-title">Transformational Dallas Mavericks Development</h3>
-        <p class="hl-body">The Dallas Mavericks have recently announced that they are planning to build a new arena, headquarters, and multi-use sports-centered entertainment district less than a mile away from the Sheraton. After playing at American Airlines Center in Downtown Dallas since 2001, the team&rsquo;s current lease is set to expire following the 2030-31 NBA season. The franchise conducted an extensive search for its next home and has landed on an approximately 104-acre site down the street from the Hotel. The site, formerly home to Valley View Mall, has remained largely vacant since the mall was fully demolished in 2023. Wanting to own their own arena and create a market-defining entertainment hub surrounding it, the Mavericks announced that they entered into an option agreement to acquire the property in June of this year. Along with a new team headquarters and practice facility, restaurants, retail, entertainment, housing, and public spaces, the team is targeting to have the state-of-the-art arena ready for the 2031-32 NBA season, aligning with the expiration of the team&rsquo;s existing lease. The project represents a transformational investment in North Dallas that is expected to establish a major new sports hub and entertainment destination, further enhancing the Property&rsquo;s surrounding demand base.</p>
+        <p class="hl-body">The Dallas Mavericks have recently announced that they are planning to build a new arena, headquarters, and multi-use, sports-centered entertainment district less than a mile away from the Sheraton. After playing at American Airlines Center in Downtown Dallas since 2001, the team&rsquo;s current lease set to expire following the 2030-31 NBA season. The franchise conducted an extensive search for its next home and have landed on an approximately 104-acre site down the street from the Hotel. The site, formerly home to Valley View Mall, has remained largely vacant since the mall was fully demolished in 2023. Wanting to own their own arena and create a market-defining entertainment hub surrounding it, the Mavericks announced they entered into an agreement to acquire the property in June of this year. Along with a new team headquarters and practice facility, restaurants, retail, entertainment, housing, and public spaces, the team is targeting to have the state-of-the-art stadium ready for the 2031-32 NBA season. The project represents a transformational investment in North Dallas that is expected to establish a major new sports hub and entertainment destination, further enhancing the Property&rsquo;s surrounding demand base.</p>
       </div>
       <div class="hl-photo">
         <img src="Photos/highlight-2.jpg" alt="Dallas Mavericks Entertainment District" style="object-position:right center">
@@ -452,8 +451,20 @@ ul{list-style:none}
         <h3 class="hl-title">Deep and Diversified Corporate Demand Base</h3>
         <p class="hl-body">Within the broader DFW market, the Galleria submarket is home to a significant concentration of corporate headquarters, regional offices, and major employers across a diverse range of industries. Approximately 29 million square feet of office space surrounds the Hotel within a three-mile radius (over 56 million in a five-mile radius), providing a substantial base of corporate demand. Major nearby office properties include the three Galleria Towers, Lincoln Centre, 4851 LBJ, Pinnacle Tower, and Heritage One &amp; Two, with major tenants such as Amazon, Ryan, Marsh, RSM, AECOM, and Burns &amp; McDonnell. This concentration of office inventory and institutional tenants creates a diversified base of year-round demand, reducing the Sheraton&rsquo;s reliance on any single company or industry.</p>
       </div>
-      <div class="hl-photo">
-        <img src="Photos/galleria-towers-aerial.jpg" alt="Galleria Towers">
+      <div class="hl-photo" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--navy-lt);padding:40px 30px;gap:28px">
+        <span style="font-family:var(--font-jost);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">Key Tenants</span>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center">
+          <span style="font-family:var(--font-jost);font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,.08);padding:12px 20px;border-radius:4px">Kimley-Horn</span>
+          <span style="font-family:var(--font-jost);font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,.08);padding:12px 20px;border-radius:4px">AECOM</span>
+          <span style="font-family:var(--font-jost);font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,.08);padding:12px 20px;border-radius:4px">Merrill Lynch</span>
+          <span style="font-family:var(--font-jost);font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,.08);padding:12px 20px;border-radius:4px">Burns &amp; McDonnell</span>
+          <span style="font-family:var(--font-jost);font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,.08);padding:12px 20px;border-radius:4px">MetLife</span>
+          <span style="font-family:var(--font-jost);font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,.08);padding:12px 20px;border-radius:4px">MassMutual</span>
+          <span style="font-family:var(--font-jost);font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,.08);padding:12px 20px;border-radius:4px">PNC Bank</span>
+          <span style="font-family:var(--font-jost);font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,.08);padding:12px 20px;border-radius:4px">Bell Partners</span>
+          <span style="font-family:var(--font-jost);font-size:14px;font-weight:500;color:#fff;background:rgba(255,255,255,.08);padding:12px 20px;border-radius:4px">Amazon</span>
+        </div>
+        <span style="font-family:var(--font-jost);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);opacity:.5">Tenant logos can replace text if provided</span>
       </div>
     </div>
   </div>
@@ -480,10 +491,10 @@ ul{list-style:none}
       <div>
         <div class="hl-eyebrow">Investment Highlight &mdash; 05 / 07</div>
         <h3 class="hl-title">At the Epicenter of the 4th-Largest Metro Area in the U.S.</h3>
-        <p class="hl-body">The Hotel sits within the Dallas-Fort Worth-Arlington MSA, the fourth-largest metropolitan area in the United States with a population of approximately 8.5 million. The Dallas-Fort Worth metroplex hosts 24 Fortune 500 headquarters and 49 Fortune 1000 companies, reinforcing its standing as one of the nation&rsquo;s top and fastest-growing employment markets. The region has led the nation in employment growth this decade, adding roughly 450,000 net new jobs. In addition, DFW led the country in population growth in 2023, adding over 191,000 residents, and has ranked among the nation&rsquo;s top metros for numeric gains every year since, adding approximately 189,000 residents in 2024 and 124,000 in 2025, a cumulative increase of more than 500,000 people in three years. As further testament to its prowess, DFW was ranked the No. 1 investment market in the United States for the fifth consecutive year in CBRE&rsquo;s 2026 North America Investor Intentions Survey, highlighting the sustained success and future growth of the metroplex.</p>
+        <p class="hl-body">The Hotel sits within the Dallas-Fort Worth-Arlington MSA, the fourth-largest metropolitan area in the United States with a population of approximately 8.5 million. The Dallas-Fort Worth metroplex hosts 24 Fortune 500 headquarters and 49 Fortune 1000 companies, reinforcing its standing as one of the nation&rsquo;s top and fastest growing employment markets. The region has led the nation in employment growth this decade, adding roughly 450,000 net new jobs. In addition, DFW led the country in population growth in 2023, adding approximately 191,000 residents, and has ranked among the nation&rsquo;s top metros for numeric gains every year since, adding approximately 190,000 residents in 2024 and 125,000 in 2025, a cumulative increase of more than 500,000 people in three years (over 450 per day). As further testament to its prowess, DFW was ranked the No. 1 investment market in the United States for the fifth consecutive year in CBRE&rsquo;s 2026 North America Investor Intentions Survey, highlighting the sustained success and future growth of the metroplex.</p>
       </div>
       <div class="hl-photo">
-        <img src="Photos/Dallas Downtown.jpeg" alt="Downtown Dallas">
+        <img src="Photos/Dallas Aerial.jpeg" alt="Dallas Skyline Aerial">
       </div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:32px">
@@ -506,7 +517,7 @@ ul{list-style:none}
       <div>
         <div class="hl-eyebrow">Investment Highlight &mdash; 06 / 07</div>
         <h3 class="hl-title">Institutionally Maintained with Renovation Upside</h3>
-        <p class="hl-body">The Sheraton represents the opportunity to acquire an institutionally maintained and operated asset in a condensed and evolving submarket. This is evidenced by the recent renovation of the Water Fire Grille, reflecting ownership&rsquo;s commitment to institutional-quality upkeep. The Property offers meaningful RevPAR upside through a targeted renovation of the guest rooms, allowing a new owner to drive enhanced returns through potential rate increases, operational optimization, and improved flow-through. Following the renovation, new ownership should be able to further strengthen the Hotel&rsquo;s competitive positioning and support incremental performance gains.</p>
+        <p class="hl-body">The Sheraton represents the opportunity to acquire an institutionally maintained and operated asset in an evolving submarket. This is evidenced by the recent renovation of the Water Fire Grille, reflecting ownership&rsquo;s commitment to institutional-quality upkeep. The Property offers additional meaningful RevPAR upside through a targeted renovation of the guest rooms, allowing a new owner to drive enhanced returns through operational optimization and improved flow-through. Following the renovation, new ownership should be able to further strengthen the Hotel&rsquo;s competitive positioning and support incremental performance gains.</p>
       </div>
       <div class="hl-photo">
         <img src="Photos/highlight-6.avif" alt="Renovation Upside">
