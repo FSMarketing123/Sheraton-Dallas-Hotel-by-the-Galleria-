@@ -2,28 +2,15 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "HGI Pensacola — Dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3000,
-      "autoPort": true,
-      "cwd": "hgi-pensacola"
-    },
-    {
-      "name": "HGI Pensacola — Production Preview",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start"],
-      "port": 3000,
-      "autoPort": true,
-      "cwd": "hgi-pensacola"
-    },
-    {
-      "name": "Courtyard Nashville — Dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3001,
-      "autoPort": true,
-      "cwd": "courtyard-nashville"
+      "name": "Sheraton Dallas Galleria — Static Preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "-e",
+        "const http=require('http'),fs=require('fs'),path=require('path');const ROOT=process.cwd();const T={'.html':'text/html; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.avif':'image/avif','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.ico':'image/x-icon'};http.createServer((q,s)=>{let p=decodeURIComponent(q.url.split('?')[0]);if(p.endsWith('/'))p+='index.html';const f=path.resolve(ROOT,'.'+p);if(!f.startsWith(ROOT)){s.writeHead(403);s.end('forbidden');return;}fs.readFile(f,(e,d)=>{if(e){s.writeHead(404,{'Content-Type':'text/plain'});s.end('404 '+p);return;}s.writeHead(200,{'Content-Type':T[path.extname(f).toLowerCase()]||'application/octet-stream'});s.end(d);});}).listen(4181,'127.0.0.1',()=>console.log('serving '+ROOT+' on http://127.0.0.1:4181'));"
+      ],
+      "cwd": ".",
+      "port": 4181,
+      "autoPort": true
     }
   ]
 }
