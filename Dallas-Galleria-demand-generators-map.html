@@ -451,7 +451,7 @@ const DATA = {
 };
 
 /* ---------- map ---------- */
-const map = L.map("map", { zoomControl:true, scrollWheelZoom:true, attributionControl:true });
+const map = L.map("map", { zoomControl:true, scrollWheelZoom:false, attributionControl:true });
 L.control.scale({ imperial:true, metric:false, position:"bottomleft" }).addTo(map);
 
 /* --- basemaps --- */
