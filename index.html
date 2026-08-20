@@ -59,7 +59,9 @@ ul{list-style:none}
 .nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:5px 0;transition:all .3s}
 
 /* ── SIDE TAB ── */
-.side-tab{position:fixed;left:0;top:50%;z-index:999;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;background:var(--red);color:#1a1a1a;font-family:var(--font-jost);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:10px 20px;cursor:pointer;transition:background .2s;text-decoration:none}
+/* vertical via writing-mode: rotate() about left-centre hung half the tab
+   off the viewport, clipping it by ~18px */
+.side-tab{position:fixed;left:0;top:50%;z-index:999;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;text-orientation:mixed;background:var(--red);color:#1a1a1a;font-family:var(--font-jost);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:10px 20px;cursor:pointer;transition:background .2s;text-decoration:none}
 .side-tab:hover{background:var(--red-lt)}
 
 /* ── HERO ── */
@@ -77,7 +79,7 @@ ul{list-style:none}
 
 /* ── OVERVIEW ── */
 .overview{background:var(--ink);padding:clamp(80px,10vw,140px) 0}
-.overview-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;column-gap:clamp(32px,4vw,56px);row-gap:0;align-items:stretch}
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;column-gap:10px;row-gap:0;align-items:stretch}
 /* row 1 = brand only; row 2 = copy | snapshot+photo, so the snapshot top
    lines up with the first line of copy and both columns share a baseline */
 .overview-brand{grid-column:1;grid-row:1}
@@ -135,6 +137,11 @@ ul{list-style:none}
 .hl-title{font-family:var(--font-cormorant);font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.15;color:#fff;margin-bottom:32px}
 .hl-body{font-family:var(--font-jost);font-size:15.5px;color:var(--muted);line-height:1.8;text-align:justify}
 .hl-photo{width:100%;border-radius:4px;overflow:hidden;min-height:300px}
+/* full-bleed variant: copy spans the row, image sits beneath at full width */
+.hl-single{display:block}
+.hl-photo-wide{width:100%;margin-top:44px;border-radius:4px;overflow:hidden;background:var(--navy-lt);min-height:clamp(240px,30vw,420px);display:flex;align-items:center;justify-content:center}
+.hl-photo-wide img{width:100%;height:100%;object-fit:cover;display:block}
+.hl-photo-wide span{font-family:var(--font-cormorant);font-size:clamp(22px,3vw,34px);font-weight:300;letter-spacing:.04em;color:rgba(255,255,255,.32)}
 .hl-photo img{width:100%;height:100%;object-fit:cover}
 .hl-photo-cap{font-family:var(--font-jost);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:12px}
 .hl-placeholder{width:100%;min-height:300px;background:var(--navy-lt);border-radius:4px;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(255,255,255,.12)}
@@ -445,16 +452,15 @@ ul{list-style:none}
 
 <section class="hl-section">
   <div class="wrap">
-    <div class="hl-grid">
+    <div class="hl-single">
       <div>
         <div class="hl-eyebrow">Investment Highlight &mdash; 02 / 07</div>
         <h3 class="hl-title">Transformational Dallas Mavericks Development</h3>
         <p class="hl-body">The Dallas Mavericks have recently announced that they are planning to build a new arena, headquarters, and multi-use, sports-centered entertainment district less than a mile away from the Sheraton. After playing at American Airlines Center in Downtown Dallas since 2001, the team&rsquo;s current lease set to expire following the 2030-31 NBA season. The franchise conducted an extensive search for its next home and have landed on an approximately 104-acre site down the street from the Hotel. The site, formerly home to Valley View Mall, has remained largely vacant since the mall was fully demolished in 2023. Wanting to own their own arena and create a market-defining entertainment hub surrounding it, the Mavericks announced they entered into an agreement to acquire the property in June of this year. Along with a new team headquarters and practice facility, restaurants, retail, entertainment, housing, and public spaces, the team is targeting to have the state-of-the-art stadium ready for the 2031-32 NBA season. The project represents a transformational investment in North Dallas that is expected to establish a major new sports hub and entertainment destination, further enhancing the Property&rsquo;s surrounding demand base.</p>
       </div>
-      <div class="hl-photo">
-        <img src="Photos/highlight-2.jpg" alt="Dallas Mavericks Entertainment District" style="object-position:right center">
-      </div>
     </div>
+
+    <div class="hl-photo-wide"><span>Image &mdash; Pending</span></div>
   </div>
 </section>
 
@@ -505,7 +511,7 @@ ul{list-style:none}
       <div>
         <div class="hl-eyebrow">Investment Highlight &mdash; 05 / 07</div>
         <h3 class="hl-title">At the Epicenter of the 4th-Largest Metro Area in the U.S.</h3>
-        <p class="hl-body">The Hotel sits within the Dallas-Fort Worth-Arlington MSA, the fourth-largest metropolitan area in the United States with a population of approximately 8.5 million. The Dallas-Fort Worth metroplex hosts 24 Fortune 500 headquarters and 49 Fortune 1000 companies, reinforcing its standing as one of the nation&rsquo;s top and fastest growing employment markets. The region has led the nation in employment growth this decade, adding roughly 450,000 net new jobs. In addition, DFW led the country in population growth in 2023, adding approximately 191,000 residents, and has ranked among the nation&rsquo;s top metros for numeric gains every year since, adding approximately 190,000 residents in 2024 and 125,000 in 2025, a cumulative increase of more than 500,000 people in three years (over 450 per day). As further testament to its prowess, DFW was ranked the No. 1 investment market in the United States for the fifth consecutive year in CBRE&rsquo;s 2026 North America Investor Intentions Survey, highlighting the sustained success and future growth of the metroplex.</p>
+        <p class="hl-body">The Hotel sits within the Dallas-Fort Worth-Arlington MSA, the fourth-largest metropolitan area in the United States with a population of approximately 8.5 million. The Dallas-Fort Worth metroplex hosts 24 Fortune 500 headquarters and 49 Fortune 1000 companies, reinforcing its standing as one of the nation&rsquo;s top and fastest growing employment markets. The region has led the nation in employment growth this decade, adding roughly 450,000 net new jobs. In addition, DFW led the country in population growth in 2023, adding approximately 191,000 residents, and has ranked among the nation&rsquo;s top metros for numeric gains every year since, adding approximately 189,000 residents in 2024 and 124,000 in 2025, a cumulative increase of more than 500,000 people in three years (over 450 per day). As further testament to its prowess, DFW was ranked the No. 1 investment market in the United States for the fifth consecutive year in CBRE&rsquo;s 2026 North America Investor Intentions Survey, highlighting the sustained success and future growth of the metroplex.</p>
       </div>
       <div class="hl-photo">
         <img src="Photos/Dallas Aerial.jpeg" alt="Dallas Skyline Aerial">
