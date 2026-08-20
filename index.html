@@ -86,7 +86,8 @@ ul{list-style:none}
 .overview-brand{margin-bottom:48px}
 .overview-brand img{max-width:260px}
 .overview .body-text em{color:#fff;font-style:italic}
-.overview .btn-row{display:flex;gap:14px;margin-top:auto;padding-top:36px;flex-wrap:wrap}
+/* auto on both sides centres the buttons in the space left below the copy */
+.overview .btn-row{display:flex;gap:14px;margin-top:auto;margin-bottom:auto;flex-wrap:wrap}
 .overview-photo{width:100%;margin-top:auto;border-radius:2px;overflow:hidden;max-height:280px}
 .overview-photo img{width:100%;height:100%;object-fit:cover}
 .stats-card{display:flex;flex-direction:column;gap:10px;justify-content:flex-start}
@@ -211,7 +212,7 @@ ul{list-style:none}
   .nav-toggle{display:block}
   .overview-grid{grid-template-columns:1fr;grid-template-rows:auto}
   .overview-brand,.overview-copy,.overview-right{grid-column:1;grid-row:auto}
-  .overview .btn-row{margin-top:36px;padding-top:0}
+  .overview .btn-row{margin-top:36px;margin-bottom:0;padding-top:0}
   .overview-photo{margin-top:0}
   .hl-grid{grid-template-columns:1fr}
 }
