@@ -79,19 +79,23 @@ ul{list-style:none}
 
 /* ── OVERVIEW ── */
 .overview{background:var(--ink);padding:clamp(80px,10vw,140px) 0}
-.overview-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;column-gap:10px;row-gap:0;align-items:stretch}
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr auto;column-gap:10px;row-gap:0;align-items:stretch}
 /* row 1 = brand only; row 2 = copy | snapshot+photo, so the snapshot top
    lines up with the first line of copy and both columns share a baseline */
 /* logo sits in the right column, above the snapshot grid */
-.overview-brand{grid-column:2;grid-row:1;display:flex;justify-content:center}
-.overview-copy{grid-column:1;grid-row:2;display:flex;flex-direction:column}
-.overview-right{grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:40px;justify-content:flex-end}
-.overview-brand{margin-bottom:48px}
-.overview-brand img{max-width:260px}
+/* lockup sits inside the right column; auto block margins centre it in the
+   free space above the snapshot, horizontally centred by the flex rule */
+.overview-brand{display:flex;justify-content:center;align-items:center}
+.overview-copy{grid-column:1;grid-row:1;display:flex;flex-direction:column}
+/* no flex gap: it would sit below the lockup outside the auto margins and
+   bias the vertical centring — the auto margins provide the spacing */
+.overview-right{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:0;justify-content:flex-end}
+.overview-brand{margin:auto 0}
+.overview-brand img{max-width:260px;width:auto;height:auto;max-height:100%;object-fit:contain;display:block}
 .overview .body-text em{color:#fff;font-style:italic}
 /* auto on both sides centres the buttons in the space left below the copy */
 /* buttons span both columns, centred, beneath everything */
-.overview .btn-row{grid-column:1/-1;grid-row:3;display:flex;gap:14px;justify-content:center;margin-top:52px;flex-wrap:wrap}
+.overview .btn-row{grid-column:1/-1;grid-row:2;display:flex;gap:14px;justify-content:center;margin-top:52px;flex-wrap:wrap}
 .overview-photo{width:100%;margin-top:40px;border-radius:2px;overflow:hidden;max-height:280px}
 .overview-photo img{width:100%;height:100%;object-fit:cover}
 .stats-card{display:flex;flex-direction:column;gap:10px;justify-content:flex-start}
@@ -221,7 +225,7 @@ ul{list-style:none}
   .nav-toggle{display:block}
   .overview-grid{grid-template-columns:1fr;grid-template-rows:auto}
   .overview-brand,.overview-copy,.overview-right,.overview .btn-row{grid-column:1;grid-row:auto}
-  .overview-brand{justify-content:flex-start}
+  .overview-brand{justify-content:flex-start;margin:0 0 32px}
   .overview .btn-row{margin-top:36px;justify-content:flex-start}
   .overview-photo{margin-top:32px}
   .hl-grid{grid-template-columns:1fr}
@@ -290,10 +294,6 @@ ul{list-style:none}
 <section class="overview" id="overview">
   <div class="wrap">
     <div class="overview-grid">
-        <div class="overview-brand">
-          <img src="Photos/sheraton-dallas-galleria-logo.png" alt="Sheraton Dallas Galleria">
-        </div>
-
 <div class="overview-copy">
         <p class="body-text" style="margin-bottom:24px">Hodges Ward Elliott (&ldquo;HWE&rdquo;) is pleased to present the opportunity to acquire the fee-simple interest in the 317-room <strong style="color:#fff">Sheraton Dallas Galleria</strong> (&ldquo;Property&rdquo; or &ldquo;Hotel&rdquo;), strategically located at one of the busiest intersections in the Dallas-Fort Worth metroplex, across the street from the iconic Galleria Dallas, and surrounded by over 40 million square feet of office and retail space in a three-mile radius. The Galleria, a landmark retail, dining, entertainment, and office development, has anchored North Dallas for more than four decades, receiving over 12 million visitors per year and approximately 7,000 office professionals per day. The surrounding area is continuing to scale with an influx of major office leases, retail tenants, and new development, creating a compelling long-term demand outlook for the Hotel.</p>
         <p class="body-text">Most recently, a landmark development has been proposed less than a mile from the Sheraton, with the <strong style="color:#fff">NBA&rsquo;s Dallas Mavericks</strong> selecting a nearby, 104-acre site to build a <strong style="color:#fff">new arena, headquarters, and a mixed-use entertainment district</strong>. This represents a major economic catalyst for the submarket, only adding to the appeal of what is already one of the densest commercial corridors in the region.</p>
@@ -304,6 +304,9 @@ ul{list-style:none}
 </div><!-- /overview-copy -->
 
 <div class="overview-right">
+        <div class="overview-brand">
+          <img src="Photos/sheraton-dallas-galleria-logo.png" alt="Sheraton Dallas Galleria">
+        </div>
       <div class="stats-card">
       <div class="stat-row full">
         <div class="stat-cell">
