@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Demand Generators — Dallas / Galleria</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    /* chrome */
+    --ink:        #071825;
+    --ink-2:      #0D2637;
+    --ink-3:      #12314607;
+    --panel:      #0A2131;
+    --line:       rgba(255,255,255,.10);
+    --line-2:     rgba(255,255,255,.18);
+    --paper:      #F6F4EF;
+    --paper-dim:  rgba(246,244,239,.62);
+    --paper-dim2: rgba(246,244,239,.40);
+    --brass:      #C6A15B;
+
+    /* demand categories — matched to the source exhibit */
+    --office:     #00AEEF;
+    --retail:     #6FBE4A;
+    --medical:    #E02B20;
+    --education:  #EE7DBE;
+    --connect:    #FFD400;
+
+    --sidebar-w: 400px;
+    --ease: cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Archivo", ui-sans-serif, system-ui, sans-serif;
+    font-size:14px;
+    -webkit-font-smoothing:antialiased;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- shell ---------- */
+  .wrap{
+    height:100dvh;
+    display:grid;
+    grid-template-rows:auto 1fr;
+  }
+
+  .masthead{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:24px;
+    padding:20px 26px 16px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, var(--ink-2), var(--ink));
+  }
+  .eyebrow{
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 6px;
+    font-weight:600;
+  }
+  .masthead h1{
+    font-family:"Instrument Serif", Georgia, serif;
+    font-weight:400;
+    font-size:30px;
+    line-height:1;
+    letter-spacing:.01em;
+    margin:0;
+  }
+  .subject-line{
+    margin:7px 0 0;
+    font-size:12px;
+    color:var(--paper-dim);
+    letter-spacing:.02em;
+  }
+  .subject-line b{ color:var(--paper); font-weight:600; }
+
+  .tally{ display:flex; gap:26px; padding-bottom:4px; }
+  .tally div{ text-align:right; }
+  .tally .n{
+    font-family:"Instrument Serif", Georgia, serif;
+    font-size:28px;
+    line-height:1;
+    display:block;
+  }
+  .tally .l{
+    font-size:9.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--paper-dim2);
+  }
+
+  /* ---------- body split ---------- */
+  .split{
+    display:grid;
+    grid-template-columns:var(--sidebar-w) 1fr;
+    min-height:0;
+  }
+
+  /* ---------- sidebar ---------- */
+  .rail{
+    border-right:1px solid var(--line);
+    background:var(--panel);
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+  }
+
+  .filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  .chip{
+    font:inherit;
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--paper);
+    background:transparent;
+    border:1px solid var(--line-2);
+    border-radius:999px;
+    padding:5px 11px 5px 8px;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    cursor:pointer;
+    transition:background .18s var(--ease), border-color .18s var(--ease), opacity .18s var(--ease);
+  }
+  .chip .dot{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--c);
+    flex:none;
+  }
+  .chip[aria-pressed="false"]{ opacity:.34; }
+  .chip:hover{ border-color:var(--c); }
+  .chip:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+
+  .listhead{
+    display:grid;
+    grid-template-columns:26px 1fr 52px 62px;
+    gap:8px;
+    padding:9px 16px;
+    font-size:9px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--paper-dim2);
+    border-bottom:1px solid var(--line);
+  }
+  .listhead .r{ text-align:right; }
+
+  .list{ overflow-y:auto; flex:1; min-height:0; scrollbar-width:thin; }
+  .list::-webkit-scrollbar{ width:8px; }
+  .list::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.14); border-radius:8px; }
+
+  .group{ border-bottom:1px solid var(--line); }
+  .group.is-hidden{ display:none; }
+
+  .band{
+    background:var(--c);
+    color:var(--band-ink, #06121B);
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    padding:6px 16px;
+    display:flex;
+    justify-content:space-between;
+    position:sticky; top:0; z-index:2;
+  }
+  .band span{ opacity:.72; letter-spacing:.1em; }
+
+  .row{
+    display:grid;
+    grid-template-columns:26px 1fr 52px 62px;
+    gap:8px;
+    align-items:baseline;
+    width:100%;
+    text-align:left;
+    padding:8px 16px;
+    background:transparent;
+    border:0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    color:var(--paper);
+    font:inherit;
+    font-size:12.5px;
+    cursor:pointer;
+    transition:background .15s var(--ease);
+  }
+  .row:last-child{ border-bottom:0; }
+  .row .idx{
+    color:var(--c);
+    font-weight:700;
+    font-size:11px;
+  }
+  .row .nm{ line-height:1.3; }
+  .row .di,.row .dt{
+    text-align:right;
+    font-size:11px;
+    color:var(--paper-dim);
+  }
+  .row:hover,.row.is-active{ background:rgba(255,255,255,.07); }
+  .row.is-active .nm{ color:var(--c); font-weight:600; }
+  .row:focus-visible{ outline:2px solid var(--brass); outline-offset:-2px; }
+
+  .rail-foot{
+    padding:11px 16px;
+    border-top:1px solid var(--line);
+    font-size:10px;
+    color:var(--paper-dim2);
+    line-height:1.5;
+  }
+
+  /* ---------- map ---------- */
+  .stage{ position:relative; min-height:0; }
+  #map{ position:absolute; inset:0; background:#DCD9D2; }
+
+  .map-tools{
+    position:absolute; z-index:500;
+    right:12px; top:12px;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .tool{
+    font:inherit; font-size:10.5px; font-weight:600;
+    letter-spacing:.1em; text-transform:uppercase;
+    background:var(--panel); color:var(--paper);
+    border:1px solid var(--line-2); border-radius:3px;
+    padding:7px 11px; cursor:pointer;
+    transition:background .18s var(--ease);
+  }
+  .tool:hover{ background:var(--ink-2); }
+  .tool[aria-pressed="true"]{ border-color:var(--brass); color:var(--brass); }
+  .tool:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+
+  /* basemap switcher */
+  .basemap{
+    position:absolute; z-index:500;
+    left:12px; top:12px;
+    display:flex;
+    background:var(--panel);
+    border:1px solid var(--line-2);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .basemap button{
+    font:inherit; font-size:10.5px; font-weight:600;
+    letter-spacing:.1em; text-transform:uppercase;
+    background:transparent; color:var(--paper-dim);
+    border:0; border-right:1px solid var(--line);
+    padding:7px 11px; cursor:pointer;
+    transition:background .18s var(--ease), color .18s var(--ease);
+  }
+  .basemap button:last-child{ border-right:0; }
+  .basemap button:hover{ background:var(--ink-2); color:var(--paper); }
+  .basemap button[aria-pressed="true"]{ background:var(--ink-2); color:var(--brass); }
+  .basemap button:focus-visible{ outline:2px solid var(--brass); outline-offset:-2px; }
+
+  /* road casings drawn over the basemap */
+  .road-pane{
+    filter:saturate(0) contrast(1.45) brightness(1.06);
+    mix-blend-mode:multiply;
+  }
+  .road-pane.on-dark{
+    filter:saturate(0) brightness(1.7) contrast(1.3);
+    mix-blend-mode:screen;
+    opacity:.7;
+  }
+
+  /* pins */
+  .pin{
+    width:26px; height:26px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Archivo",sans-serif;
+    font-size:12px; font-weight:700;
+    color:#fff;
+    border:2px solid #fff;
+    box-shadow:0 1px 5px rgba(6,18,27,.45);
+    transition:transform .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .pin.ink{ color:#06121B; }
+  .leaflet-marker-icon.lift .pin{
+    transform:scale(1.42);
+    box-shadow:0 4px 14px rgba(6,18,27,.5);
+  }
+  .subject-pin{
+    width:38px; height:38px; border-radius:50%;
+    background:var(--ink); border:3px solid var(--brass);
+    color:var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    font-size:17px; line-height:1;
+    box-shadow:0 3px 14px rgba(6,18,27,.55);
+  }
+
+  .leaflet-popup-content-wrapper{
+    background:var(--panel); color:var(--paper);
+    border-radius:3px; box-shadow:0 8px 26px rgba(6,18,27,.4);
+  }
+  .leaflet-popup-tip{ background:var(--panel); }
+  .leaflet-popup-content{ margin:11px 14px; font-family:"Archivo",sans-serif; }
+  .pop-cat{
+    font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+    font-weight:700; margin-bottom:4px;
+  }
+  .pop-nm{
+    font-family:"Instrument Serif",Georgia,serif;
+    font-size:17px; line-height:1.15; margin-bottom:5px;
+  }
+  .pop-meta{ font-size:11px; color:var(--paper-dim); letter-spacing:.02em; }
+  .leaflet-container a.leaflet-popup-close-button{ color:var(--paper-dim2); }
+  .leaflet-control-attribution{ font-size:9px; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px){
+    .split{ grid-template-columns:1fr; grid-template-rows:46dvh 1fr; }
+    .rail{ order:2; border-right:0; border-top:1px solid var(--line); }
+    .stage{ order:1; }
+    .masthead{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .tally{ gap:20px; }
+    .tally div{ text-align:left; }
+    .masthead h1{ font-size:24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">Demand Generators</p>
+      <h1>Dallas Galleria / LBJ Corridor</h1>
+      <p class="subject-line">Measured from <b id="subjName">the Subject Property</b> · driving distance in miles</p>
+    </div>
+    <div class="tally">
+      <div><span class="n">30</span><span class="l">Drivers</span></div>
+      <div><span class="n">0.1</span><span class="l">Nearest (mi)</span></div>
+      <div><span class="n">21</span><span class="l">Within 8 mi</span></div>
+    </div>
+  </header>
+
+  <div class="split">
+    <aside class="rail">
+      <div class="filters" id="filters"></div>
+      <div class="listhead">
+        <div>#</div><div>Demand Driver</div><div class="r">Dist</div><div class="r">Drive</div>
+      </div>
+      <div class="list" id="list"></div>
+      <div class="rail-foot">Select any driver to locate it. Distances are approximate driving distances; drive times reflect typical off-peak conditions.</div>
+    </aside>
+
+    <div class="stage">
+      <div id="map"></div>
+      <div class="basemap" id="basemap">
+        <button data-base="street" aria-pressed="true">Street</button>
+        <button data-base="minimal" aria-pressed="false">Minimal</button>
+        <button data-base="dark" aria-pressed="false">Dark</button>
+      </div>
+      <div class="map-tools">
+        <button class="tool" id="reset">Reset view</button>
+        <button class="tool" id="roadsBtn" aria-pressed="true">Road outlines</button>
+        <button class="tool" id="ringsBtn" aria-pressed="false">Radius rings</button>
+        <button class="tool" id="labelsBtn" aria-pressed="false">Driver names</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* =========================================================================
+   SUBJECT PROPERTY — edit these three values to re-center the exhibit
+   ========================================================================= */
+const SUBJECT = {
+  name: "Subject Property",
+  address: "LBJ Freeway & Dallas North Tollway, Dallas, TX",
+  lat: 32.92714,
+  lng: -96.82509
+};
+
+/* =========================================================================
+   DEMAND GENERATORS — numbering restarts within each category and matches
+   the pin numbers on the map exactly.
+   ========================================================================= */
+const CATEGORIES = [
+  { key:"office",    label:"Office Demand",                 color:"#00AEEF", darkText:false },
+  { key:"retail",    label:"Retail / Entertainment Demand",  color:"#6FBE4A", darkText:true  },
+  { key:"medical",   label:"Medical Demand",                 color:"#E02B20", darkText:false },
+  { key:"education", label:"Education Demand",               color:"#EE7DBE", darkText:true  },
+  { key:"connect",   label:"Connectivity",                   color:"#FFD400", darkText:true  }
+];
+
+const DATA = {
+  office: [
+    ["4851 LBJ",                        0.1, "1–5 Minutes",   32.92742, -96.82388],
+    ["Heritage One & Two",              0.1, "1–5 Minutes",   32.92862, -96.82371],
+    ["Pinnacle Tower",                  0.1, "1–5 Minutes",   32.92795, -96.82203],
+    ["Three Galleria Tower",            0.5, "1–5 Minutes",   32.92706, -96.81865],
+    ["One Galleria Tower",              0.6, "1–5 Minutes",   32.92996, -96.81943],
+    ["Two Galleria Tower",              0.7, "1–5 Minutes",   32.93055, -96.81944],
+    ["Lincoln Centre",                  0.8, "1–5 Minutes",   32.92479, -96.81696],
+    ["The Colonnade",                   2.5, "5–10 Minutes",  32.95820, -96.82323],
+    ["Preston Center",                  4.8, "5–10 Minutes",  32.86458, -96.80316],
+    ["Texas Instruments",               4.9, "10–15 Minutes", 32.91324, -96.75244]
+  ],
+  retail: [
+    ["Galleria Dallas",                         0.4, "1–5 Minutes",   32.92981, -96.81988],
+    ["Dallas Mavericks Entertainment District",  1.0, "1–5 Minutes",   32.92944, -96.80833],
+    ["Village on the Parkway",                   1.9, "1–5 Minutes",   32.95139, -96.82076],
+    ["Vitruvian Park",                           2.5, "5–10 Minutes",  32.93546, -96.84976],
+    ["NorthPark Center",                         6.2, "10–15 Minutes", 32.86864, -96.77393],
+    ["Dallas Stars New Development",             7.5, "10–15 Minutes", 33.03085, -96.83209]
+  ],
+  medical: [
+    ["Dallas Medical Center",                        2.8, "5–10 Minutes",  32.91545, -96.86951],
+    ["Medical City Dallas Hospital",                 3.7, "5–10 Minutes",  32.91180, -96.77317],
+    ["Texas Health Presbyterian Hospital Dallas",    6.1, "10–15 Minutes", 32.88123, -96.76231],
+    ["Baylor Scott & White Medical Center – Plano",  7.8, "10–15 Minutes", 33.01353, -96.79061],
+    ["Parkland Health",                              9.4, "15–20 Minutes", 32.81356, -96.83480],
+    ["Children's Medical Center Dallas",             9.8, "15–20 Minutes", 32.80939, -96.83683],
+    ["UT Southwestern Medical Center",              10.1, "15–20 Minutes", 32.81622, -96.84649]
+  ],
+  education: [
+    ["Dallas College Brookhaven Campus",  1.6, "1–5 Minutes",   32.92925, -96.85008],
+    ["Southern Methodist University",     7.4, "10–15 Minutes", 32.84122, -96.78452],
+    ["University of Texas at Dallas",     8.2, "10–15 Minutes", 32.98593, -96.75033]
+  ],
+  connect: [
+    ["Dallas North Tollway, Interstate 635 Intersection",  0.3, "1–5 Minutes",   32.92620, -96.82100],
+    ["Addison Airport",                                    3.3, "5–10 Minutes",  32.96821, -96.83383],
+    ["Dallas Love Field",                                  9.3, "10–15 Minutes", 32.84383, -96.84850],
+    ["Dallas/Fort Worth International Airport (DFW)",     14.8, "15–20 Minutes", 32.89220, -97.03912]
+  ]
+};
+
+/* ---------- map ---------- */
+const map = L.map("map", { zoomControl:true, scrollWheelZoom:true, attributionControl:true });
+L.control.scale({ imperial:true, metric:false, position:"bottomleft" }).addTo(map);
+
+/* --- basemaps --- */
+const CARTO_ATTR = '&copy; OpenStreetMap &copy; CARTO';
+const BASES = {
+  street:  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png",
+             { maxZoom:19, attribution:CARTO_ATTR }),
+  minimal: L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
+             { maxZoom:19, attribution:CARTO_ATTR }),
+  dark:    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
+             { maxZoom:19, attribution:CARTO_ATTR })
+};
+
+/* --- road casings, drawn over the basemap (geometry only, no text) --- */
+map.createPane("roads");
+map.getPane("roads").style.zIndex = 350;
+map.getPane("roads").style.pointerEvents = "none";
+map.getPane("roads").classList.add("road-pane");
+
+const ROAD_LAYERS = {
+  street:  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png",
+             { maxZoom:19, pane:"roads" }),
+  minimal: L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
+             { maxZoom:19, pane:"roads" }),
+  dark:    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
+             { maxZoom:19, pane:"roads" })
+};
+
+/* --- place labels, drawn above the roads --- */
+map.createPane("labels");
+map.getPane("labels").style.zIndex = 360;
+map.getPane("labels").style.pointerEvents = "none";
+
+const LABEL_LAYERS = {
+  street:  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png",
+             { maxZoom:19, pane:"labels" }),
+  minimal: L.tileLayer("https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png",
+             { maxZoom:19, pane:"labels" }),
+  dark:    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png",
+             { maxZoom:19, pane:"labels" })
+};
+
+let currentBase = "street";
+let roadsOn = true;
+
+BASES[currentBase].addTo(map);
+LABEL_LAYERS[currentBase].addTo(map);
+ROAD_LAYERS[currentBase].addTo(map);
+
+function setBase(key){
+  if (key === currentBase) return;
+  map.removeLayer(BASES[currentBase]);
+  map.removeLayer(LABEL_LAYERS[currentBase]);
+  if (map.hasLayer(ROAD_LAYERS[currentBase])) map.removeLayer(ROAD_LAYERS[currentBase]);
+  currentBase = key;
+  BASES[key].addTo(map);
+  LABEL_LAYERS[key].addTo(map);
+  if (roadsOn) ROAD_LAYERS[key].addTo(map);
+  map.getPane("roads").classList.toggle("on-dark", key === "dark");
+  document.querySelectorAll("#basemap button").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.base === key)));
+}
+
+document.getElementById("basemap").addEventListener("click", e => {
+  const btn = e.target.closest("button");
+  if (btn) setBase(btn.dataset.base);
+});
+
+const roadsBtn = document.getElementById("roadsBtn");
+roadsBtn.addEventListener("click", () => {
+  roadsOn = !roadsOn;
+  roadsBtn.setAttribute("aria-pressed", String(roadsOn));
+  roadsOn ? ROAD_LAYERS[currentBase].addTo(map) : map.removeLayer(ROAD_LAYERS[currentBase]);
+});
+
+/* subject */
+document.getElementById("subjName").textContent = SUBJECT.name;
+const subjectMarker = L.marker([SUBJECT.lat, SUBJECT.lng], {
+  zIndexOffset: 1000,
+  icon: L.divIcon({ className:"", html:'<div class="subject-pin">&#9733;</div>', iconSize:[38,38], iconAnchor:[19,19] })
+}).addTo(map);
+subjectMarker.bindPopup(
+  '<div class="pop-cat" style="color:#C6A15B">Subject Property</div>' +
+  '<div class="pop-nm">' + SUBJECT.name + '</div>' +
+  '<div class="pop-meta">' + SUBJECT.address + '</div>'
+);
+
+/* build markers + rail */
+const entries = [];
+const listEl = document.getElementById("list");
+const filtersEl = document.getElementById("filters");
+const catMeta = {};
+
+CATEGORIES.forEach(cat => {
+  catMeta[cat.key] = cat;
+  const items = DATA[cat.key];
+
+  /* filter chip */
+  const chip = document.createElement("button");
+  chip.className = "chip";
+  chip.style.setProperty("--c", cat.color);
+  chip.setAttribute("aria-pressed", "true");
+  chip.dataset.cat = cat.key;
+  chip.innerHTML = '<span class="dot"></span>' + cat.label.replace(" Demand","") + " (" + items.length + ")";
+  filtersEl.appendChild(chip);
+
+  /* group */
+  const group = document.createElement("section");
+  group.className = "group";
+  group.dataset.cat = cat.key;
+
+  const band = document.createElement("div");
+  band.className = "band";
+  band.style.setProperty("--c", cat.color);
+  if (!cat.darkText) band.style.setProperty("--band-ink", "#FFFFFF");
+  band.innerHTML = cat.label + "<span>" + items.length + "</span>";
+  group.appendChild(band);
+
+  items.forEach((it, i) => {
+    const [name, dist, drive, lat, lng] = it;
+    const n = i + 1;
+
+    const row = document.createElement("button");
+    row.className = "row";
+    row.style.setProperty("--c", cat.color);
+    row.innerHTML =
+      '<span class="idx">' + n + '</span>' +
+      '<span class="nm">' + name + '</span>' +
+      '<span class="di">' + dist.toFixed(1) + '</span>' +
+      '<span class="dt">' + drive.split(" ")[0] + '<span style="opacity:.5"> min</span></span>';
+    group.appendChild(row);
+
+    const marker = L.marker([lat, lng], {
+      icon: L.divIcon({
+        className: "",
+        html: '<div class="pin' + (cat.darkText ? " ink" : "") + '" style="background:' + cat.color + '">' + n + '</div>',
+        iconSize: [26,26],
+        iconAnchor: [13,13]
+      }),
+      title: name
+    });
+    marker.bindPopup(
+      '<div class="pop-cat" style="color:' + cat.color + '">' + cat.label + ' &middot; ' + n + '</div>' +
+      '<div class="pop-nm">' + name + '</div>' +
+      '<div class="pop-meta">' + dist.toFixed(1) + ' mi &middot; ' + drive + '</div>'
+    );
+    marker.addTo(map);
+
+    const rec = { name, dist, drive, lat, lng, n, cat:cat.key, color:cat.color, row, marker, tip:null };
+    entries.push(rec);
+
+    const focus = () => {
+      entries.forEach(e => e.row.classList.remove("is-active"));
+      row.classList.add("is-active");
+      map.flyTo([lat, lng], Math.max(map.getZoom(), 14), { duration:.6 });
+      marker.openPopup();
+    };
+    row.addEventListener("click", focus);
+    row.addEventListener("mouseenter", () => marker.getElement()?.classList.add("lift"));
+    row.addEventListener("mouseleave", () => marker.getElement()?.classList.remove("lift"));
+    marker.on("mouseover", () => { marker.getElement()?.classList.add("lift"); });
+    marker.on("mouseout",  () => { marker.getElement()?.classList.remove("lift"); });
+    marker.on("click", () => {
+      entries.forEach(e => e.row.classList.remove("is-active"));
+      row.classList.add("is-active");
+      row.scrollIntoView({ block:"nearest", behavior:"smooth" });
+    });
+  });
+
+  listEl.appendChild(group);
+});
+
+/* ---------- filters ---------- */
+const active = new Set(CATEGORIES.map(c => c.key));
+filtersEl.addEventListener("click", e => {
+  const chip = e.target.closest(".chip");
+  if (!chip) return;
+  const key = chip.dataset.cat;
+  if (active.has(key)) { active.delete(key); chip.setAttribute("aria-pressed","false"); }
+  else { active.add(key); chip.setAttribute("aria-pressed","true"); }
+  applyFilter();
+});
+
+function applyFilter(){
+  entries.forEach(e => {
+    const on = active.has(e.cat);
+    if (on) { if (!map.hasLayer(e.marker)) e.marker.addTo(map); if (e.tip && !map.hasLayer(e.tip)) e.tip.addTo(map); }
+    else { map.removeLayer(e.marker); if (e.tip) map.removeLayer(e.tip); }
+  });
+  document.querySelectorAll(".group").forEach(g => {
+    g.classList.toggle("is-hidden", !active.has(g.dataset.cat));
+  });
+}
+
+/* ---------- labels ---------- */
+let labelsOn = false;
+const labelsBtn = document.getElementById("labelsBtn");
+labelsBtn.addEventListener("click", () => {
+  labelsOn = !labelsOn;
+  labelsBtn.setAttribute("aria-pressed", String(labelsOn));
+  entries.forEach(e => {
+    if (labelsOn) {
+      if (!e.tip) {
+        e.tip = L.tooltip({ permanent:true, direction:"right", offset:[14,0], className:"" })
+                  .setLatLng([e.lat, e.lng])
+                  .setContent(e.name);
+      }
+      if (active.has(e.cat)) e.tip.addTo(map);
+    } else if (e.tip) {
+      map.removeLayer(e.tip);
+    }
+  });
+});
+
+/* ---------- radius rings (1 / 3 / 5 mi) ---------- */
+const ringGroup = L.layerGroup();
+[1,3,5].forEach(mi => {
+  L.circle([SUBJECT.lat, SUBJECT.lng], {
+    radius: mi * 1609.34,
+    color: "#C6A15B", weight:1, opacity:.75,
+    fillColor:"#C6A15B", fillOpacity:.045, dashArray:"3 5", interactive:false
+  }).addTo(ringGroup);
+});
+let ringsOn = false;
+const ringsBtn = document.getElementById("ringsBtn");
+ringsBtn.addEventListener("click", () => {
+  ringsOn = !ringsOn;
+  ringsBtn.setAttribute("aria-pressed", String(ringsOn));
+  ringsOn ? ringGroup.addTo(map) : map.removeLayer(ringGroup);
+});
+
+/* ---------- view ---------- */
+const allBounds = L.latLngBounds(
+  entries.map(e => [e.lat, e.lng]).concat([[SUBJECT.lat, SUBJECT.lng]])
+);
+function resetView(){ map.fitBounds(allBounds, { padding:[46,46] }); }
+document.getElementById("reset").addEventListener("click", resetView);
+resetView();
+</script>
+</body>
+</html>
