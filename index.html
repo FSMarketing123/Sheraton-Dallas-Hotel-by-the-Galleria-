@@ -79,23 +79,24 @@ ul{list-style:none}
 
 /* ── OVERVIEW ── */
 .overview{background:var(--ink);padding:clamp(80px,10vw,140px) 0}
-.overview-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr auto;column-gap:10px;row-gap:0;align-items:stretch}
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;column-gap:clamp(32px,4vw,56px);row-gap:0;align-items:stretch}
 /* row 1 = brand only; row 2 = copy | snapshot+photo, so the snapshot top
    lines up with the first line of copy and both columns share a baseline */
 /* logo sits in the right column, above the snapshot grid */
 /* lockup sits inside the right column; auto block margins centre it in the
    free space above the snapshot, horizontally centred by the flex rule */
-.overview-brand{display:flex;justify-content:center;align-items:center}
-.overview-copy{grid-column:1;grid-row:1;display:flex;flex-direction:column}
+/* lockup: column 1, row 1, left-aligned with the copy, centred in its band */
+.overview-brand{grid-column:1;grid-row:1;display:flex;align-items:center;align-self:center}
+.overview-copy{grid-column:1;grid-row:2;display:flex;flex-direction:column}
 /* no flex gap: it would sit below the lockup outside the auto margins and
    bias the vertical centring — the auto margins provide the spacing */
-.overview-right{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:0;justify-content:flex-end}
-.overview-brand{margin:auto 0}
+.overview-right{grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:0;justify-content:flex-end}
+.overview-brand{margin:24px 0}
 .overview-brand img{max-width:260px;width:auto;height:auto;max-height:100%;object-fit:contain;display:block}
 .overview .body-text em{color:#fff;font-style:italic}
 /* auto on both sides centres the buttons in the space left below the copy */
 /* buttons span both columns, centred, beneath everything */
-.overview .btn-row{grid-column:1/-1;grid-row:2;display:flex;gap:14px;justify-content:center;margin-top:52px;flex-wrap:wrap}
+.overview .btn-row{grid-column:1/-1;grid-row:3;display:flex;gap:14px;justify-content:center;margin-top:52px;flex-wrap:wrap}
 .overview-photo{width:100%;margin-top:40px;border-radius:2px;overflow:hidden;max-height:280px}
 .overview-photo img{width:100%;height:100%;object-fit:cover}
 .stats-card{display:flex;flex-direction:column;gap:10px;justify-content:flex-start}
@@ -139,7 +140,6 @@ ul{list-style:none}
 .hl-section{background:var(--ink);padding:clamp(30px,4vw,50px) 0}
 .hl-section:nth-child(even){background:var(--navy)}
 .hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,4vw,56px);align-items:stretch}
-.hl-eyebrow{font-family:var(--font-jost);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:24px}
 .hl-title{font-family:var(--font-cormorant);font-size:clamp(32px,4vw,52px);font-weight:300;line-height:1.15;color:#fff;margin-bottom:32px}
 .hl-body{font-family:var(--font-jost);font-size:15.5px;color:var(--muted);line-height:1.8;text-align:justify}
 .hl-photo{width:100%;border-radius:4px;overflow:hidden;min-height:300px}
@@ -225,7 +225,7 @@ ul{list-style:none}
   .nav-toggle{display:block}
   .overview-grid{grid-template-columns:1fr;grid-template-rows:auto}
   .overview-brand,.overview-copy,.overview-right,.overview .btn-row{grid-column:1;grid-row:auto}
-  .overview-brand{justify-content:flex-start;margin:0 0 32px}
+  .overview-brand{margin:0 0 32px}
   .overview .btn-row{margin-top:36px;justify-content:flex-start}
   .overview-photo{margin-top:32px}
   .hl-grid{grid-template-columns:1fr}
@@ -294,6 +294,10 @@ ul{list-style:none}
 <section class="overview" id="overview">
   <div class="wrap">
     <div class="overview-grid">
+        <div class="overview-brand">
+          <img src="Photos/sheraton-dallas-galleria-logo.png" alt="Sheraton Dallas Galleria">
+        </div>
+
 <div class="overview-copy">
         <p class="body-text" style="margin-bottom:24px">Hodges Ward Elliott (&ldquo;HWE&rdquo;) is pleased to present the opportunity to acquire the fee-simple interest in the 317-room <strong style="color:#fff">Sheraton Dallas Galleria</strong> (&ldquo;Property&rdquo; or &ldquo;Hotel&rdquo;), strategically located at one of the busiest intersections in the Dallas-Fort Worth metroplex, across the street from the iconic Galleria Dallas, and surrounded by over 40 million square feet of office and retail space in a three-mile radius. The Galleria, a landmark retail, dining, entertainment, and office development, has anchored North Dallas for more than four decades, receiving over 12 million visitors per year and approximately 7,000 office professionals per day. The surrounding area is continuing to scale with an influx of major office leases, retail tenants, and new development, creating a compelling long-term demand outlook for the Hotel.</p>
         <p class="body-text">Most recently, a landmark development has been proposed less than a mile from the Sheraton, with the <strong style="color:#fff">NBA&rsquo;s Dallas Mavericks</strong> selecting a nearby, 104-acre site to build a <strong style="color:#fff">new arena, headquarters, and a mixed-use entertainment district</strong>. This represents a major economic catalyst for the submarket, only adding to the appeal of what is already one of the densest commercial corridors in the region.</p>
@@ -304,9 +308,6 @@ ul{list-style:none}
 </div><!-- /overview-copy -->
 
 <div class="overview-right">
-        <div class="overview-brand">
-          <img src="Photos/sheraton-dallas-galleria-logo.png" alt="Sheraton Dallas Galleria">
-        </div>
       <div class="stats-card">
       <div class="stat-row full">
         <div class="stat-cell">
@@ -434,7 +435,6 @@ ul{list-style:none}
   <div class="wrap">
     <div class="hl-grid">
       <div>
-        <div class="hl-eyebrow">Investment Highlight &mdash; 01 / 07</div>
         <h3 class="hl-title">At the Doorstep of the Galleria</h3>
         <p class="hl-body">The Property sits across the Tollway from the Galleria, a signature mixed-use destination consisting of a 1.4-million-square-foot, super-regional mall and entertainment center, along with three recently renovated office towers that also total 1.4 million square feet. A staple of the Dallas landscape since its inception, the mall alone hosts over 12 million annual visitors and has undergone multiple renovations and modernizations in recent years, including a newly announced plan to completely transform the grand entrance and enhance the shopper experience. The efforts to improve the mall have been fruitful, attracting exciting new tenants, such as the experiential 100,000-square-foot Netflix House in December 2025, only the second in the country, along with the recently opened flagship Lane Boots, and the future opening of a 10,000-square-foot Aritzia store in fall 2026.</p>
         <p class="hl-body" style="margin-top:20px">The three office towers, purchased by Piedmont Realty Trust in 2020 for $400 million, received meaningful renovations from 2024 to 2025. These improvements have played a large role in drawing and retaining high-profile tenants, landing over 775,000 square feet of new leases over the past two years. With tenants such as Amazon, Merrill Lynch, Kimley-Horn, Marsh, and Burns &amp; McDonnell, the complex hosts roughly 7,000 professionals per day and is set up for success for years to come. Between its substantial retail traffic and significant daily office population, the Galleria stands as one of the most visited destinations in Texas, providing the Sheraton with a rare combination of retail, office, and entertainment demand at its doorstep.</p>
@@ -461,7 +461,6 @@ ul{list-style:none}
   <div class="wrap">
     <div class="hl-single">
       <div>
-        <div class="hl-eyebrow">Investment Highlight &mdash; 02 / 07</div>
         <h3 class="hl-title">Transformational Dallas Mavericks Development</h3>
         <p class="hl-body">The Dallas Mavericks have recently announced that they are planning to build a new arena, headquarters, and multi-use, sports-centered entertainment district less than a mile away from the Sheraton. After playing at American Airlines Center in Downtown Dallas since 2001, the team&rsquo;s current lease set to expire following the 2030-31 NBA season. The franchise conducted an extensive search for its next home and have landed on an approximately 104-acre site down the street from the Hotel. The site, formerly home to Valley View Mall, has remained largely vacant since the mall was fully demolished in 2023. Wanting to own their own arena and create a market-defining entertainment hub surrounding it, the Mavericks announced they entered into an agreement to acquire the property in June of this year. Along with a new team headquarters and practice facility, restaurants, retail, entertainment, housing, and public spaces, the team is targeting to have the state-of-the-art stadium ready for the 2031-32 NBA season. The project represents a transformational investment in North Dallas that is expected to establish a major new sports hub and entertainment destination, further enhancing the Property&rsquo;s surrounding demand base.</p>
       </div>
@@ -475,7 +474,6 @@ ul{list-style:none}
   <div class="wrap">
     <div class="hl-grid">
       <div>
-        <div class="hl-eyebrow">Investment Highlight &mdash; 03 / 07</div>
         <h3 class="hl-title">Deep and Diversified Corporate Demand Base</h3>
         <p class="hl-body">Within the broader DFW market, the Galleria submarket is home to a significant concentration of corporate headquarters, regional offices, and major employers across a diverse range of industries. Approximately 29 million square feet of office space surrounds the Hotel within a three-mile radius (over 56 million in a five-mile radius), providing a substantial base of corporate demand. Major nearby office properties include the three Galleria Towers, Lincoln Centre, 4851 LBJ, Pinnacle Tower, and Heritage One &amp; Two, with major tenants such as Amazon, Ryan, Marsh, RSM, AECOM, and Burns &amp; McDonnell. This concentration of office inventory and institutional tenants creates a diversified base of year-round demand, reducing the Sheraton&rsquo;s reliance on any single company or industry.</p>
       </div>
@@ -501,7 +499,6 @@ ul{list-style:none}
   <div class="wrap">
     <div class="hl-grid">
       <div>
-        <div class="hl-eyebrow">Investment Highlight &mdash; 04 / 07</div>
         <h3 class="hl-title">Exceptional Access to DFW's Leading Employment Centers</h3>
         <p class="hl-body">The Sheraton sits at the intersection of the Dallas North Tollway and Interstate 635, providing direct access to major employment centers and commercial hubs throughout all of Dallas and the broader DFW metroplex. The 33-mile Dallas North Tollway provides access south to Downtown Dallas, Highland Park and University Park, two of the most affluent neighborhoods in the country, and north into some of the region&rsquo;s most prosperous and fastest-growing employment centers, including Addison, Plano, and Frisco. At the same time, Interstate 635 provides east-west connectivity across North Dallas and convenient access to DFW International Airport, about 15 minutes from the Hotel. Together, the Dallas North Tollway and Interstate 635 see approximately 400,000 vehicles per day around the Property, highlighting its scale of connectivity. With direct access to two of North Dallas&rsquo;s primary transportation thoroughfares, the Hotel is well situated to accommodate corporate travelers and clients conducting business both within the immediate Galleria submarket and across the MSA.</p>
       </div>
@@ -516,7 +513,6 @@ ul{list-style:none}
   <div class="wrap">
     <div class="hl-grid">
       <div>
-        <div class="hl-eyebrow">Investment Highlight &mdash; 05 / 07</div>
         <h3 class="hl-title">At the Epicenter of the 4th-Largest Metro Area in the U.S.</h3>
         <p class="hl-body">The Hotel sits within the Dallas-Fort Worth-Arlington MSA, the fourth-largest metropolitan area in the United States with a population of approximately 8.5 million. The Dallas-Fort Worth metroplex hosts 24 Fortune 500 headquarters and 49 Fortune 1000 companies, reinforcing its standing as one of the nation&rsquo;s top and fastest growing employment markets. The region has led the nation in employment growth this decade, adding roughly 450,000 net new jobs. In addition, DFW led the country in population growth in 2023, adding approximately 191,000 residents, and has ranked among the nation&rsquo;s top metros for numeric gains every year since, adding approximately 189,000 residents in 2024 and 124,000 in 2025, a cumulative increase of more than 500,000 people in three years (over 450 per day). As further testament to its prowess, DFW was ranked the No. 1 investment market in the United States for the fifth consecutive year in CBRE&rsquo;s 2026 North America Investor Intentions Survey, highlighting the sustained success and future growth of the metroplex.</p>
       </div>
@@ -542,7 +538,6 @@ ul{list-style:none}
   <div class="wrap">
     <div class="hl-grid">
       <div>
-        <div class="hl-eyebrow">Investment Highlight &mdash; 06 / 07</div>
         <h3 class="hl-title">Institutionally Maintained with Renovation Upside</h3>
         <p class="hl-body">The Sheraton represents the opportunity to acquire an institutionally maintained and operated asset in an evolving submarket. This is evidenced by the recent renovation of the Water Fire Grille, reflecting ownership&rsquo;s commitment to institutional-quality upkeep. The Property offers additional meaningful RevPAR upside through a targeted renovation of the guest rooms, allowing a new owner to drive enhanced returns through operational optimization and improved flow-through. Following the renovation, new ownership should be able to further strengthen the Hotel&rsquo;s competitive positioning and support incremental performance gains.</p>
       </div>
@@ -557,7 +552,6 @@ ul{list-style:none}
   <div class="wrap">
     <div class="hl-grid">
       <div>
-        <div class="hl-eyebrow">Investment Highlight &mdash; 07 / 07</div>
         <h3 class="hl-title">Clean Investment Offering</h3>
         <p class="hl-body">The fee-simple interest in the Sheraton is being offered free and clear of existing management and financing, affording new ownership maximum optionality in the future operation and capitalization of the Hotel.</p>
       </div>
