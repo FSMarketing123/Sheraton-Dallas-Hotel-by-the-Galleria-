@@ -98,8 +98,8 @@ ul{list-style:none}
 .overview .body-text em{color:#fff;font-style:italic}
 /* auto on both sides centres the buttons in the space left below the copy */
 /* buttons span both columns, centred, beneath everything */
-.overview .btn-row{display:flex;gap:14px;justify-content:center;margin-top:44px;flex-wrap:wrap}
-.overview-photo{grid-column:1;grid-row:3;width:100%;margin-top:40px;border-radius:2px;overflow:hidden;max-height:280px}
+.overview .btn-row{grid-column:1/-1;grid-row:3;display:flex;gap:14px;justify-content:center;margin-top:52px;flex-wrap:wrap}
+.overview-photo{width:100%;margin-top:40px;border-radius:2px;overflow:hidden;max-height:280px}
 .overview-photo img{width:100%;height:100%;object-fit:cover}
 .stats-card{display:flex;flex-direction:column;gap:10px;flex:1}
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1}
@@ -226,7 +226,7 @@ ul{list-style:none}
   .nav-links a:not(.nav-sign){display:none}
   .nav-toggle{display:block}
   .overview-grid{grid-template-columns:1fr;grid-template-rows:auto}
-  .overview-brand,.overview-copy,.overview-right,.overview-photo{grid-column:1;grid-row:auto}
+  .overview-brand,.overview-copy,.overview-right,.overview .btn-row{grid-column:1;grid-row:auto}
   .stat-row,.stats-card{flex:0 0 auto}
   .overview-brand{margin:0 0 32px}
   .overview .btn-row{margin-top:36px}
@@ -304,14 +304,16 @@ ul{list-style:none}
 <div class="overview-copy">
         <p class="body-text" style="margin-bottom:24px">Hodges Ward Elliott (&ldquo;HWE&rdquo;) is pleased to present the opportunity to acquire the fee-simple interest in the 317-room <strong style="color:#fff">Sheraton Dallas Galleria</strong> (&ldquo;Property&rdquo; or &ldquo;Hotel&rdquo;), strategically located at one of the busiest intersections in the Dallas-Fort Worth metroplex, across the street from the iconic Galleria Dallas, and surrounded by over 40 million square feet of office and retail space in a three-mile radius. The Galleria, a landmark retail, dining, entertainment, and office development, has anchored North Dallas for more than four decades, receiving over 12 million visitors per year and approximately 7,000 office professionals per day. The surrounding area is continuing to scale with an influx of major office leases, retail tenants, and new development, creating a compelling long-term demand outlook for the Hotel.</p>
         <p class="body-text">Most recently, a landmark development has been proposed less than a mile from the Sheraton, with the <strong style="color:#fff">NBA&rsquo;s Dallas Mavericks</strong> selecting a nearby, 104-acre site to build a <strong style="color:#fff">new arena, headquarters, and a mixed-use entertainment district</strong>. This represents a major economic catalyst for the submarket, only adding to the appeal of what is already one of the densest commercial corridors in the region.</p>
+        <div class="overview-photo">
+          <img src="Photos/Exterior.jpg" alt="Sheraton Dallas Galleria Exterior">
+        </div>
+
+
+</div><!-- /overview-copy -->
+
         <div class="btn-row">
           <a href="https://secure.rightsignature.com/templates/045bfb56-72ea-4f4c-9c8e-5e82089b11ba/template-signer-link/7a87ee444951bc195d16d8b5147ab890" class="btn-cta" target="_blank" rel="noopener">Sign CA Online</a>
           <a href="TX Dallas Sheraton Galleria CA.docx" class="btn-ghost" download>Download CA (DOCX)</a>
-        </div>
-
-</div><!-- /overview-copy -->
-        <div class="overview-photo">
-          <img src="Photos/Exterior.jpg" alt="Sheraton Dallas Galleria Exterior">
         </div>
 
 
