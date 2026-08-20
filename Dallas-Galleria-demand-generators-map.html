@@ -250,7 +250,8 @@
   /* basemap switcher */
   .basemap{
     position:absolute; z-index:500;
-    left:12px; top:12px;
+    /* cleared of Leaflet's zoom control (34px wide at left:10px) */
+    left:56px; top:12px;
     display:flex;
     background:var(--panel);
     border:1px solid var(--line-2);
@@ -333,6 +334,9 @@
     .tally{ gap:20px; }
     .tally div{ text-align:left; }
     .masthead h1{ font-size:24px; }
+    /* narrow map: sit the basemap switcher under the zoom control instead of
+       beside it, so it clears both the zoom stack and the map tools */
+    .basemap{ left:12px; top:84px; }
   }
 
   @media (prefers-reduced-motion: reduce){
