@@ -157,16 +157,6 @@ ul{list-style:none}
 .hl-photo-wide{width:100%;margin-top:44px;border-radius:4px;overflow:hidden;background:var(--navy-lt);min-height:clamp(240px,30vw,420px);display:flex;align-items:center;justify-content:center}
 /* annotated exhibit: height follows the image so no labels are cropped */
 .hl-photo-wide img{width:100%;height:auto;display:block}
-/* aerial exhibit: click to zoom toward a point, drag to pan. easeInOutCubic
-   both directions; the transition is dropped mid-drag so panning tracks 1:1 */
-.hl-photo-wide.zoomable{position:relative;cursor:zoom-in;touch-action:pan-y}
-.hl-photo-wide.zoomable img{transform-origin:0 0;will-change:transform;transition:transform .7s cubic-bezier(.65,0,.35,1);-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
-.hl-photo-wide.zoomable.is-zoomed{cursor:crosshair;touch-action:none}
-.hl-photo-wide.zoomable.is-tracking img{transition:transform .45s cubic-bezier(.22,.61,.36,1)}
-.hl-photo-wide.zoomable.is-dragging{cursor:grabbing}
-.hl-photo-wide.zoomable.is-dragging img{transition:none}
-.zoom-hint{position:absolute;bottom:12px;right:12px;z-index:2;pointer-events:none;font-family:var(--font-jost);font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#1a1a1a;background:var(--red);padding:5px 10px;border-radius:1px;transition:opacity .4s;opacity:.88}
-@media (prefers-reduced-motion:reduce){.hl-photo-wide.zoomable img{transition:none}}
 .hl-photo img{width:100%;height:100%;object-fit:cover}
 .hl-photo-cap{font-family:var(--font-jost);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:12px}
 .hl-placeholder{width:100%;min-height:300px;background:var(--navy-lt);border-radius:4px;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(255,255,255,.12)}
@@ -488,9 +478,8 @@ ul{list-style:none}
       </div>
     </div>
 
-    <div class="hl-photo-wide zoomable">
-      <span class="zoom-hint">Click to zoom</span>
-      <img draggable="false" src="Photos/Sheraton-Dallas-Aerial.png" alt="Aerial of the Sheraton, Galleria Dallas and the future Dallas Mavericks arena site at the DNT and I-635 intersection">
+    <div class="hl-photo-wide">
+      <img src="Photos/Sheraton-Dallas-Aerial.png" alt="Aerial of the Sheraton, Galleria Dallas and the future Dallas Mavericks arena site at the DNT and I-635 intersection">
     </div>
   </div>
 </section>
@@ -659,97 +648,7 @@ ul{list-style:none}
   </div>
 </footer>
 
-<script>
-/* Aerial exhibit. Click zooms to 2.6x; the pointer's position within the frame
-   then maps directly to the pan offset, so a mouse pans by moving — no drag.
-   Touch has no hover, so it keeps drag-to-pan. Click or Escape resets. */
-(function(){
-  var box = document.querySelector('.hl-photo-wide.zoomable');
-  if (!box) return;
-  var img  = box.querySelector('img');
-  var hint = box.querySelector('.zoom-hint');
-  var ZOOM = 2.6, s = 1, tx = 0, ty = 0;
-  var dragging = false, moved = false, sx = 0, sy = 0, ox = 0, oy = 0;
 
-  function clamp(){
-    var minX = box.clientWidth * (1 - s), minY = box.clientHeight * (1 - s);
-    tx = Math.min(0, Math.max(minX, tx));
-    ty = Math.min(0, Math.max(minY, ty));
-  }
-  function apply(){
-    img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
-  }
-  /* cursor position -> pan offset: left edge shows the left of the image, and so on */
-  function panFromPointer(cx, cy){
-    tx = cx * (1 - s);
-    ty = cy * (1 - s);
-    clamp(); apply();
-  }
-  function setHint(){
-    if (hint) hint.textContent = s > 1 ? 'Click to reset' : 'Click to zoom';
-  }
-  function zoomTo(cx, cy){
-    s = ZOOM;
-    panFromPointer(cx, cy);
-    box.classList.add('is-zoomed'); setHint();
-  }
-  function reset(){
-    s = 1; tx = 0; ty = 0;
-    box.classList.remove('is-zoomed', 'is-tracking');
-    apply(); setHint();
-  }
-  function local(e){
-    var r = box.getBoundingClientRect();
-    return { x: e.clientX - r.left, y: e.clientY - r.top };
-  }
-
-  /* touch/pen only: drag to pan, since there is no hover to track */
-  box.addEventListener('pointerdown', function(e){
-    if (s === 1 || e.pointerType === 'mouse') return;
-    dragging = true; moved = false;
-    sx = e.clientX; sy = e.clientY; ox = tx; oy = ty;
-    box.classList.add('is-dragging');
-    try { box.setPointerCapture(e.pointerId); } catch(_){}
-  });
-
-  box.addEventListener('pointermove', function(e){
-    if (s === 1) return;
-    if (dragging){
-      var dx = e.clientX - sx, dy = e.clientY - sy;
-      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
-      tx = ox + dx; ty = oy + dy; clamp(); apply();
-      return;
-    }
-    if (e.pointerType !== 'mouse') return;
-    var pt = local(e);
-    box.classList.add('is-tracking');   /* shorter, gliding transition */
-    panFromPointer(pt.x, pt.y);
-  });
-
-  function endDrag(e){
-    if (!dragging) return;
-    dragging = false; box.classList.remove('is-dragging');
-    try { box.releasePointerCapture(e.pointerId); } catch(_){}
-  }
-  box.addEventListener('pointerup', endDrag);
-  box.addEventListener('pointercancel', endDrag);
-
-  /* a native image drag would steal the pointer */
-  img.addEventListener('dragstart', function(e){ e.preventDefault(); });
-
-  box.addEventListener('click', function(e){
-    if (moved) { moved = false; return; }
-    var pt = local(e);
-    if (s === 1) zoomTo(pt.x, pt.y); else reset();
-  });
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && s > 1) reset();
-  });
-  window.addEventListener('resize', function(){ if (s > 1){ clamp(); apply(); } });
-
-  setHint();
-})();
-</script>
 
 <!-- ════ LEAFLET JS ════ -->
 
