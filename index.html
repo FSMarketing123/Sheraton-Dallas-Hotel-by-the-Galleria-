@@ -107,6 +107,13 @@ ul{list-style:none}
 .stats-card .stat-cell{padding:16px 24px}
 .stat-row.full{grid-template-columns:1fr}
 .stat-cell{background:var(--navy-lt);border-radius:6px;padding:24px 28px;display:flex;flex-direction:column;justify-content:center}
+/* hover expands a card to 2x, lifted above its neighbours. transform does not
+   reflow, so the grid stays put and the hovered card simply overlaps. */
+.stat-cell{position:relative;z-index:0;transition:transform .4s cubic-bezier(.65,0,.35,1),box-shadow .4s cubic-bezier(.65,0,.35,1)}
+.stat-cell:hover{transform:scale(2);z-index:5;box-shadow:0 26px 70px rgba(0,0,0,.5)}
+/* no sticky hover state on touch, and respect reduced motion */
+@media (hover:none){.stat-cell:hover{transform:none;z-index:0;box-shadow:none}}
+@media (prefers-reduced-motion:reduce){.stat-cell{transition:none}}
 .stat-val{font-family:var(--font-cormorant);font-size:24px;font-weight:400;color:#fff;margin-bottom:6px;text-align:center}
 .stat-lbl{font-family:var(--font-jost);font-size:9px;font-weight:300;text-transform:uppercase;letter-spacing:.26em;color:var(--muted);text-align:center}
 
