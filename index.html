@@ -153,7 +153,7 @@ ul{list-style:none}
 /* aerial exhibit: click to zoom toward a point, drag to pan. easeInOutCubic
    both directions; the transition is dropped mid-drag so panning tracks 1:1 */
 .hl-photo-wide.zoomable{position:relative;cursor:zoom-in;touch-action:pan-y}
-.hl-photo-wide.zoomable img{transform-origin:0 0;will-change:transform;transition:transform .7s cubic-bezier(.65,0,.35,1)}
+.hl-photo-wide.zoomable img{transform-origin:0 0;will-change:transform;transition:transform .7s cubic-bezier(.65,0,.35,1);-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
 .hl-photo-wide.zoomable.is-zoomed{cursor:grab;touch-action:none}
 .hl-photo-wide.zoomable.is-dragging{cursor:grabbing}
 .hl-photo-wide.zoomable.is-dragging img{transition:none}
@@ -482,7 +482,7 @@ ul{list-style:none}
 
     <div class="hl-photo-wide zoomable">
       <span class="zoom-hint">Click to zoom</span>
-      <img src="Photos/Sheraton-Dallas-Aerial.png" alt="Aerial of the Sheraton, Galleria Dallas and the future Dallas Mavericks arena site at the DNT and I-635 intersection">
+      <img draggable="false" src="Photos/Sheraton-Dallas-Aerial.png" alt="Aerial of the Sheraton, Galleria Dallas and the future Dallas Mavericks arena site at the DNT and I-635 intersection">
     </div>
   </div>
 </section>
@@ -684,6 +684,9 @@ ul{list-style:none}
     s = 1; tx = 0; ty = 0; apply();
     box.classList.remove('is-zoomed'); setHint();
   }
+
+  /* a native image drag would steal the pointer and kill panning */
+  img.addEventListener('dragstart', function(e){ e.preventDefault(); });
 
   box.addEventListener('pointerdown', function(e){
     if (s === 1) return;
